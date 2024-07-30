@@ -1,0 +1,116 @@
+@import '../../variables.scss';
+
+.container {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.holder {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 20px;
+  height: 300px;
+  width: 400px;
+  color: white;
+  background-color: $c-400;
+  border-radius: 10px;
+}
+
+.closeButtonHolder {
+  display: flex;
+  justify-content: end;
+}
+
+.closeButton {
+  color: white;
+  text-decoration: none;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  &__title {
+    font-weight: 600;
+    color: $c-700;
+    font-size: 30px;
+  }
+
+  &__label {
+    color: $c-100;
+    font-weight: 500;
+    pointer-events: none;
+    transition: 0.3s all ease-in-out;
+    position: absolute;
+    user-select: none;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &__group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__inputGroup {
+    width: 100%;
+    position: relative;
+  }
+
+  &__input {
+    border-radius: 5px;
+    border: none;
+    width: 100%;
+    padding-left: 5px;
+    height: 40px;
+  }
+
+  &__buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__buttonHolder {
+    background-color: $c-300;
+    border-radius: 5px;
+  }
+
+  &__button {
+    border-radius: 5px;
+    letter-spacing: 1px;
+    transition: 0.3s all ease-in-out;
+    background-color: $c-100;
+    padding: 10px;
+    border: 2px solid $c-600;
+    color: $c-600;
+    transform: translate(-5px, -5px);
+
+    &:hover {
+      transform: translate(0, 0);
+    }
+  }
+
+  &__error {
+    color: $error-100;
+    font-size: 12px;
+  }
+
+  .form__input:not(:placeholder-shown) ~ .form__label,
+  .form__input:focus ~ .form__label {
+    left: 0;
+    top: -25px;
+    font-size: 14px;
+    transform: translateY(0);
+    color: $c-700;
+  }
+}

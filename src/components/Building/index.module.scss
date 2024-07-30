@@ -1,0 +1,83 @@
+.container {
+  padding: 10px;
+}
+
+.list {
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  height: 500px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  display: grid;
+  gap: 10px;
+}
+
+.income {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+
+  &__icon {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 10px;
+  height: 300px;
+  background-color: rgb(169, 169, 169);
+  align-items: center;
+  border-radius: 5px;
+
+  &__name {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  &__count {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    font-size: 18px;
+  }
+
+  &__image {
+    width: 150px;
+    height: 150px;
+  }
+
+  &__energyInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 20px;
+  }
+
+  &__collectButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid black;
+    transition: 0.2s all ease-in-out;
+    font-size: 20px;
+
+    &:hover {
+      background-color: black;
+      color: white;
+    }
+  }
+}

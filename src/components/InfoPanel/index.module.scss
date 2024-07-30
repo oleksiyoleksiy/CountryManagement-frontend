@@ -1,0 +1,117 @@
+.container {
+  padding: 10px;
+  display: flex;
+  gap: 50px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: rgb(0, 0, 0);
+}
+
+.resources {
+  display: flex;
+  gap: 10px;
+}
+
+.countryNameWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid white;
+    font-size: 17px;
+  }
+
+  &__icon {
+    color: white;
+  }
+}
+
+.countryName {
+  padding: 10px;
+  background-color: rgb(191, 191, 191);
+  font-size: 16px;
+  border-radius: 5px;
+  max-width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.availableResources {
+  padding: 10px 10px 10px 25px;
+  background-color: rgb(203, 203, 203);
+  position: relative;
+  border-radius: 5px;
+
+  &__iconWrapper {
+    left: -20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background-color: wheat;
+    padding: 10px;
+    border-radius: 50%;
+  }
+
+  &__icon {
+    font-size: 20px;
+  }
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.availableResources {
+  .resource {
+    background-color: unset;
+    width: unset;
+
+    &__icon {
+      position: unset;
+      background-color: unset;
+      width: 30px;
+      height: 30px;
+      padding: unset;
+      transform: unset;
+    }
+  }
+}
+
+.resource {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: grey;
+  border-radius: 5px;
+  padding: 5px;
+  width: 75px;
+
+  &__icon {
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    padding: 5px;
+    background-color: rgb(187, 187, 187);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  &__value {
+    font-weight: 500;
+    padding-left: 10px;
+  }
+}
+
+.resources {
+  gap: 40px;
+}
