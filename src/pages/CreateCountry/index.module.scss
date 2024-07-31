@@ -16,7 +16,7 @@
   height: 300px;
   width: 400px;
   color: white;
-  background-color: $c-400;
+  background-color: $bg-200;
   border-radius: 10px;
 }
 
@@ -38,12 +38,12 @@
 
   &__title {
     font-weight: 600;
-    color: $c-700;
+    color: $text-100;
     font-size: 30px;
   }
 
   &__label {
-    color: $c-100;
+    color: black;
     font-weight: 500;
     pointer-events: none;
     transition: 0.3s all ease-in-out;
@@ -81,7 +81,7 @@
   }
 
   &__buttonHolder {
-    background-color: $c-300;
+    background-color: $bg-100;
     border-radius: 5px;
   }
 
@@ -89,10 +89,9 @@
     border-radius: 5px;
     letter-spacing: 1px;
     transition: 0.3s all ease-in-out;
-    background-color: $c-100;
+    background-color: $primary-100;
     padding: 10px;
-    border: 2px solid $c-600;
-    color: $c-600;
+    color: $text-100;
     transform: translate(-5px, -5px);
 
     &:hover {
@@ -111,6 +110,6 @@
     top: -25px;
     font-size: 14px;
     transform: translateY(0);
-    color: $c-700;
+    color: $text-100;
   }
 }

@@ -6,20 +6,39 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
 }
 
 .holder {
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mainContainer {
+  display: flex;
   width: 30%;
   flex-direction: column;
   gap: 30px;
-  background-color: $c-400;
+  background-color: $bg-200;
   padding: 30px;
   border-radius: 10px;
+  width: 350px;
 
-  @media (max-width: 400px) {
-    width: 100%;
+  @media (max-width: 600px) {
+    padding: 20px;
   }
+}
+
+.sideContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 150px;
+  height: 200px;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: $bg-200;
 }
 
 .menuButton {
@@ -31,8 +50,8 @@
 }
 
 .selectCountryButton {
-  border: 2px solid $c-700;
-  color: $c-700;
+  background-color: $primary-100;
+  color: $text-100;
 
   .name {
     text-overflow: ellipsis;
@@ -42,15 +61,19 @@
   }
 
   &:hover {
-    background-color: $c-700;
-    color: $c-100;
+    background-color: $primary-200;
+    color: $text-100;
   }
 }
 
 .title {
-  color: $c-700;
+  color: $text-100;
   font-size: 30px;
   font-weight: 500;
+}
+
+.logoutButtonIcon {
+  font-size: 18px;
 }
 
 .deleteCountryButton {
@@ -60,7 +83,7 @@
   border: 2px solid $error-100;
 
   &__icon {
-    color: $c-700;
+    color: $text-100;
   }
 
   &:hover {
@@ -77,7 +100,7 @@
 
 .item {
   display: grid;
-  grid-template-columns: 90% 10%;
+  grid-template-columns: 80% 20%;
   gap: 5px;
 }
 
@@ -89,27 +112,55 @@
 
 .buttonContainer {
   display: flex;
+  gap: 10px;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .buttonHolder {
   width: 100%;
-  background-color: $c-300;
+  background-color: $bg-100;
   border-radius: 5px;
 }
 
+.userContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  justify-self: start;
+  align-self: flex-start;
+
+  &__name {
+    color: $text-100;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 50px;
+  }
+
+  &__icon {
+    border-radius: 50%;
+    padding: 1px;
+    font-size: 30px;
+    background-color: $primary-200;
+  }
+}
+
 .button {
+  width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   text-decoration: none;
   border-radius: 5px;
   letter-spacing: 1px;
   transition: 0.3s all ease-in-out;
-  background-color: $c-100;
+  background-color: $primary-100;
   padding: 10px;
-  border: 2px solid $c-600;
-  color: $c-600;
+  // border: 2px solid $accent-100;
+  color: $text-100;
   transform: translate(-5px, -5px);
 
   &:hover {

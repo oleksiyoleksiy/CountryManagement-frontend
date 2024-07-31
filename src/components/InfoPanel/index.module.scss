@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .container {
   padding: 10px;
   display: flex;
@@ -5,7 +7,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  background-color: rgb(0, 0, 0);
+  background-color: $bg-200;
 }
 
 .resources {
@@ -24,8 +26,13 @@
     justify-content: center;
     border-radius: 5px;
     padding: 10px;
-    border: 1px solid white;
+    background-color: $primary-100;
     font-size: 17px;
+    transition: .3s all ease-in-out;
+
+    &:hover {
+      background-color: $primary-200;
+    }
   }
 
   &__icon {
@@ -35,7 +42,8 @@
 
 .countryName {
   padding: 10px;
-  background-color: rgb(191, 191, 191);
+  color: $text-100;
+  background-color: $bg-100;
   font-size: 16px;
   border-radius: 5px;
   max-width: 200px;
@@ -46,7 +54,7 @@
 
 .availableResources {
   padding: 10px 10px 10px 25px;
-  background-color: rgb(203, 203, 203);
+  background-color: $bg-100;
   position: relative;
   border-radius: 5px;
 
@@ -56,20 +64,19 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    background-color: wheat;
+    background-color: $primary-100;
     padding: 10px;
     border-radius: 50%;
   }
 
   &__icon {
+    color: $text-100;
     font-size: 20px;
   }
   align-items: center;
   display: flex;
   gap: 10px;
-}
 
-.availableResources {
   .resource {
     background-color: unset;
     width: unset;
@@ -89,7 +96,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  background-color: grey;
+  background-color: $bg-100;
   border-radius: 5px;
   padding: 5px;
   width: 75px;
@@ -100,7 +107,7 @@
     transform: translateY(-50%);
     position: absolute;
     padding: 5px;
-    background-color: rgb(187, 187, 187);
+    background-color: $primary-100;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -109,6 +116,7 @@
   &__value {
     font-weight: 500;
     padding-left: 10px;
+    color: $text-100;
   }
 }
 

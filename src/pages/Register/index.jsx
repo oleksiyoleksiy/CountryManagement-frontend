@@ -23,12 +23,14 @@ function Register() {
     e.preventDefault()
 
     try {
-      let response = await register({
-        name,
-        email,
-        password,
+      const userData = {
+        name: name,
+        email: email,
+        password: password,
         password_confirmation: passwordConfirmation,
-      })
+      }
+
+      let response = await register(userData)
 
       dispatch(authActions.setToken(response))
 

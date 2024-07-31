@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { authActions } from '../../store/authSlice'
 import { login } from '../../services/authService'
+import { toast } from 'react-toastify'
 
 function Login() {
   const [email, setEmail] = useState(null)
@@ -24,7 +25,9 @@ function Login() {
       dispatch(authActions.setToken(response))
       navigate('/select-country')
     } catch (error) {
-      console.log(error.response.data)
+      console.log(error.response)
+      toast(error.response.data.message)
+
       if (error.response.data) {
         let errors = error.response.data.errors
 

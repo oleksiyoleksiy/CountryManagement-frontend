@@ -85,7 +85,10 @@ function Building() {
     const count = product.count
     const fossils = ['oil', 'coal', 'iron', 'copper']
     return Object.entries(product.resources_income).map(([key, value]) => {
-      if (!fossils.includes(key) || (fossils.includes(key) && country.available_resources.includes(key))) {
+      if (
+        !fossils.includes(key) ||
+        (fossils.includes(key) && country.available_resources.includes(key))
+      ) {
         return renderIncome(key, value * count)
       }
     })
@@ -102,7 +105,7 @@ function Building() {
 
   return (
     <div className={styles.container}>
-      {buildings ? (
+      {buildings.length > 0 ? (
         <ul className={styles.list}>
           {buildings.map((item, index) => (
             <li key={index} className={styles.item}>
@@ -133,7 +136,17 @@ function Building() {
           ))}
         </ul>
       ) : (
-        <div className={styles.message}>Тут відображатимуться ваші будівлі</div>
+        <div className={styles.hint}>
+          <div className={styles.hint__message}>
+            The buildings you have purchased will be displayed here. It's time
+            to buy your first building!
+          </div>
+          <img
+            className={styles.hint__image}
+            src="/hint-building.gif"
+            alt="hint-building"
+          />
+        </div>
       )}
     </div>
   )

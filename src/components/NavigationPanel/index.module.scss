@@ -1,5 +1,7 @@
+@import '../../variables.scss';
+
 .navbar {
-  background-color: black;
+  background-color: $bg-200;
   width: 100%;
   padding: 10px;
   position: fixed;
@@ -14,15 +16,14 @@
     align-items: center;
     justify-content: center;
     padding: 15px;
-    background-color: black;
+    background-color: $primary-100;
     font-size: 30px;
     color: white;
     border-radius: 10px;
     transition: .2s all ease-in-out;
-    border: 3px solid white;
 
     &:hover {
-      background-color: rgb(86, 86, 86);
+      background-color: $primary-200;
     }
   }
 }
