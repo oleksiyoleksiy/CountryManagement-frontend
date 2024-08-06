@@ -3,7 +3,7 @@ import styles from './index.module.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { authActions } from '../../store/authSlice'
-import { login } from '../../services/authService'
+import { authService } from '../../services/authService'
 import { toast } from 'react-toastify'
 
 function Login() {
@@ -21,7 +21,7 @@ function Login() {
     e.preventDefault()
 
     try {
-      let response = await login({ email, password })
+      let response = await authService.login({ email, password })
       dispatch(authActions.setToken(response))
       navigate('/select-country')
     } catch (error) {

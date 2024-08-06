@@ -1,6 +1,8 @@
 import axios from 'axios'
-import store from '../store' // adjust the import path as needed
+import store from '../store'
 import { authActions } from '../store/authSlice'
+import { authService } from '../services/authService'
+import { useNavigate } from 'react-router-dom'
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_DOMAIN,
@@ -9,61 +11,91 @@ const axiosInstance = axios.create({
   },
 })
 
-// // Function to get the current access token from the Redux store
-// const getAccessToken = () => store.getState().auth.token
-// const getRefreshToken = () => store.getState().auth.refreshToken
+const getAccessToken = () => store.getState().auth.token
+const getRefreshToken = () => store.getState().auth.refreshToken
 
-// // Request interceptor to add access token to headers
-// axiosInstance.interceptors.request.use(
-//   config => {
-//     const token = getAccessToken()
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`
-//     }
-//     return config
-//   },
-//   error => {
-//     return Promise.reject(error)
-//   }
-// )
+// Запобігання циклічним запитам
+let isRefreshing = false
+let failedQueue = []
 
-// axiosInstance.interceptors.response.use(
-//   response => {
-//     return response
-//   },
-//   async error => {
-//     const originalRequest = error.config
+const processQueue = (error, token = null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error)
+    } else {
+      prom.resolve(token)
+    }
+  })
+  failedQueue = []
+}
 
-//     if (
-//       error.response &&
-//       error.response.status === 401 &&
-//       !originalRequest._retry
-//     ) {
-//       originalRequest._retry = true
-//       try {
-//         const refreshToken = getRefreshToken()
-//         if (!refreshToken) {
-//           store.dispatch(authActions.logout())
-//           return Promise.reject(error)
-//         }
+// Request interceptor to add access token to headers
+axiosInstance.interceptors.request.use(
+  config => {
+    const token = getAccessToken()
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  error => Promise.reject(error)
+)
 
-//         const response = await axios.post('/refresh', null, {
-//           baseURL: import.meta.env.VITE_API_DOMAIN,
-//           headers: { Authorization: `Bearer ${refreshToken}` },
-//         })
+// Response interceptor to handle token refresh
+axiosInstance.interceptors.response.use(
+  response => response,
+  async error => {
+    const originalRequest = error.config
 
-//         store.dispatch(authActions.setToken(response.data))
-//         originalRequest.headers.Authorization = `Bearer ${response.data.token}`
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject })
+        })
+          .then(token => {
+            originalRequest.headers.Authorization = `Bearer ${token}`
+            return axiosInstance(originalRequest)
+          })
+          .catch(err => Promise.reject(err))
+      }
 
-//         return axiosInstance(originalRequest)
-//       } catch (refreshError) {
-//         store.dispatch(authActions.logout())
-//         return Promise.reject(refreshError)
-//       }
-//     }
+      originalRequest._retry = true
+      isRefreshing = true
 
-//     return Promise.reject(error)
-//   }
-// )
+      const refreshToken = getRefreshToken()
+      if (!refreshToken) {
+        store.dispatch(authActions.logout())
+        useNavigate('/login')
+        return Promise.reject(error)
+      }
+
+      try {
+        const response = await authService.refresh(refreshToken)
+        
+        store.dispatch(authActions.setToken(response))
+
+        axiosInstance.defaults.headers.common.Authorization = `Bearer ${response.accessToken}`
+        originalRequest.headers.Authorization = `Bearer ${response.accessToken}`
+
+        processQueue(null, response.accessToken)
+
+        return axiosInstance(originalRequest)
+
+      } catch (refreshError) {
+        processQueue(refreshError, null)
+        store.dispatch(authActions.logout())
+        useNavigate('/login')
+        return Promise.reject(refreshError)
+      } finally {
+        isRefreshing = false
+      }
+    } else if (error.response?.status === 401) {
+      store.dispatch(authActions.logout())
+      useNavigate('/login')
+    }
+
+    return Promise.reject(error)
+  }
+)
 
 export default axiosInstance

@@ -2,11 +2,12 @@ import React, { useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { buildingActions } from '../../store/buildingSlice'
 import { countryActions } from '../../store/countrySlice'
-import { indexBuildings } from '../../services/buildingService'
+import { buildingService } from '../../services/buildingService'
 import styles from './index.module.scss'
 import { CartFill } from 'react-bootstrap-icons'
-import { countryBuildingStore } from '../../services/countryService'
 import { useDebouncedCallback } from 'use-debounce'
+import { toast } from 'react-toastify'
+import { countryBuildingService } from '../../services/countryBuildingService'
 
 const BuildingShop = () => {
   const dispatch = useDispatch()
@@ -16,24 +17,24 @@ const BuildingShop = () => {
 
   const fetchBuildings = useCallback(async () => {
     if (token) {
-      const response = await indexBuildings(token)
+      const response = await buildingService.index(token)
       dispatch(buildingActions.setBuildings(response))
     }
   }, [dispatch, token])
 
   const buy = useCallback(
     async buildingId => {
-      try {
-        const response = await countryBuildingStore(
-          token,
-          country.id,
-          buildingId
-        )
-        dispatch(countryActions.setCurrentCountry(response.country))
-        dispatch(countryActions.setBuildings(response.buildings))
-      } catch (error) {
-        console.error('Failed to buy building', error)
-      }
+      const response = await countryBuildingService.store(
+        token,
+        country.id,
+        buildingId
+      )
+      dispatch(countryActions.setCurrentCountry(response.country))
+      dispatch(countryActions.setBuildings(response.buildings))
+      const building = response.buildings.filter(
+        item => item.id === buildingId
+      )[0]
+      toast(`the "${building.name}" building was purchased`)
     },
     [dispatch, token]
   )

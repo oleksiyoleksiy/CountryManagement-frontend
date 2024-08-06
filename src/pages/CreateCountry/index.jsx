@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from './index.module.scss'
-import { countryStore } from '../../services/countryService'
+import { countryService } from '../../services/countryService'
 import { useDispatch, useSelector } from 'react-redux'
 import { countryActions } from '../../store/countrySlice'
 import { Link, useNavigate } from 'react-router-dom'
@@ -17,7 +17,7 @@ function CreateCountry() {
   const createCountry = async e => {
     e.preventDefault()
     try {
-      const response = await countryStore(token, {
+      const response = await countryService.store(token, {
         name: name,
       })
       dispatch(countryActions.addCountry(response))

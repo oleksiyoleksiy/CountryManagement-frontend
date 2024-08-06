@@ -1,0 +1,103 @@
+@import '../../variables.scss';
+
+.container {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  height: 400px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  height: 300px;
+  background-color: $primary-100;
+
+  &__imageHolder {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__image {
+    width: 100px;
+    height: 100px;
+  }
+
+  &__name {
+    display: flex;
+    justify-content: center;
+    color: $text-100;
+    font-size: 20px;
+  }
+
+  &__count {
+    display: flex;
+    justify-content: flex-end;
+    color: $text-100;
+    font-size: 18px;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    color: $text-100;
+    border: 2px solid $text-100;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+  }
+
+  .editButton {
+    &:hover {
+      background-color: $primary-200;
+    }
+  }
+
+  .deleteButton {
+    &:hover {
+      background-color: $error-100;
+    }
+  }
+
+  &__buttonHolder {
+    display: flex;
+    gap: 5px;
+  }
+}
+
+.price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  color: $text-100;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &__value {
+    font-size: 23px;
+  }
+
+  &__icon {
+    width: 30px;
+    height: 30px;
+  }
+}

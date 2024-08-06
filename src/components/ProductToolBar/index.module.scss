@@ -1,0 +1,35 @@
+@import '../../variables.scss';
+
+.container {
+  padding: 10px 0;
+}
+
+.holder {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  background-color: $bg-200;
+}
+
+.list {
+  display: flex;
+  gap: 10px;
+
+  &__link {
+    border-radius: 5px;
+    padding: 10px;
+    text-decoration: none;
+    background-color: $primary-100;
+    color: $text-100;
+    transition: .3s all ease-in-out;
+
+    &:hover {
+      background-color: $primary-200;
+    }
+  }
+
+  &__input {
+    border-radius: 5px;
+    padding: 10px;
+  }
+}

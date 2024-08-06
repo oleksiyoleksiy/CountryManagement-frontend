@@ -1,0 +1,170 @@
+@import '../../variables.scss';
+
+.container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 50px;
+}
+
+.holder {
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  width: 300px;
+  margin-top: 30px;
+  background-color: $bg-200;
+}
+
+.types {
+  display: flex;
+}
+
+.type {
+  position: relative;
+  background-color: $primary-100;
+  color: $text-100;
+  padding: 5px;
+  border-radius: 5px;
+
+  &_selected {
+    background-color: $primary-200;
+  }
+
+  &__radio {
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.fossils {
+  display: flex;
+  gap: 10px;
+}
+
+.fossil {
+  border-radius: 5px;
+  padding: 5px;
+  background-color: $primary-100;
+  position: relative;
+  transition: 0.3s ease-in-out;
+
+  &_selected {
+    background-color: $primary-200;
+  }
+
+  &__image {
+  }
+
+  &__radio {
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.backButton {
+  color: $text-100;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__input {
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  &__title {
+    color: $text-100;
+    font-size: 25px;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__label {
+    color: $text-100;
+  }
+
+  &__inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__buttonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: $text-100;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: $primary-100;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $primary-200;
+    }
+
+    &:disabled {
+      opacity: 0.7;
+    }
+  }
+
+  &__error {
+    color: $error-100;
+    font-size: 12px;
+  }
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  gap: 10px;
+
+  &__button {
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    background-color: $primary-100;
+  }
+
+  &__icon {
+    color: $text-100;
+    font-size: 18px;
+  }
+
+  &__message {
+    font-size: 12px;
+    text-align: justify;
+    text-wrap: wrap;
+    color: $text-100;
+  }
+}

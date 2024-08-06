@@ -3,11 +3,12 @@ import styles from './index.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { countryActions } from '../../store/countrySlice'
 import { Link, useNavigate } from 'react-router-dom'
-import { countryDelete, countryIndex } from '../../services/countryService'
+import { countryService } from '../../services/countryService'
 import Modal from '../../components/Modal'
 import { toast } from 'react-toastify'
 import { BoxArrowInRight, PersonCircle, TrashFill } from 'react-bootstrap-icons'
 import { authActions } from '../../store/authSlice'
+import { productActions } from '../../store/productSlice'
 
 function SelectCountry() {
   const dispatch = useDispatch()
@@ -19,7 +20,7 @@ function SelectCountry() {
   const [countryToDelete, setCountryToDelete] = useState(null)
 
   const fetchCountries = async () => {
-    const response = await countryIndex(token)
+    const response = await countryService.index(token)
     dispatch(countryActions.setCountries(response))
     dispatch(countryActions.setBuildings(response.buildings))
   }
@@ -29,7 +30,7 @@ function SelectCountry() {
   }, [token])
 
   const deleteCountry = async id => {
-    await countryDelete(id, token)
+    await countryService.destroy(id, token)
 
     const deletedCountry = countries.find(item => item.country.id === id)
 
@@ -54,6 +55,8 @@ function SelectCountry() {
     )
     dispatch(countryActions.setCurrentCountry(selectedCountry.country))
     dispatch(countryActions.setBuildings(selectedCountry.buildings))
+    dispatch(productActions.clearMyProducts())
+    dispatch(productActions.clearProducts())
     navigate('/')
   }
 
@@ -92,7 +95,7 @@ function SelectCountry() {
         <div className={styles.sideContainer}>
           <div className={styles.userContainer}>
             <PersonCircle className={styles.userContainer__icon} />
-            <div className={styles.userContainer__name}>
+            <div className={styles.userContainer__name}>              
               {user && user.name}
             </div>
           </div>

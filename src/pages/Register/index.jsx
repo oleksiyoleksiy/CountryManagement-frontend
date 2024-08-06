@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import styles from './index.module.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { register } from '../../services/authService'
+import { authService } from '../../services/authService'
 import { authActions } from '../../store/authSlice'
 
 function Register() {
@@ -30,7 +30,7 @@ function Register() {
         password_confirmation: passwordConfirmation,
       }
 
-      let response = await register(userData)
+      let response = await authService.register(userData)
 
       dispatch(authActions.setToken(response))
 

@@ -1,28 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import styles from './index.module.scss'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { NavLink, Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import Building from '../../components/Building'
 import BuildingShop from '../../components/BuildingShop'
-import { BuildingFill, BuildingFillAdd } from 'react-bootstrap-icons'
 import InfoPanel from '../../components/InfoPanel'
 import NavigationPanel from '../../components/NavigationPanel'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import MarketplaceLayout from '../MarketplaceLayout'
+import styles from './index.module.scss'
 
 function GameLayout() {
   const currentCountry = useSelector(state => state.country.currentCountry)
+  const token = useSelector(state => state.auth.token)
   const navigate = useNavigate()
 
-  const redirectIfNoCountry = () => {
-    if (!currentCountry) {
+  const redirectIfNoAuthOrCountry = () => {
+    if (!token) {
+      navigate('/login')
+    } else if (!currentCountry) {
       navigate('/select-country')
     }
   }
 
   useEffect(() => {
-    redirectIfNoCountry()
-  }, [])
+    redirectIfNoAuthOrCountry()
+  }, [token, currentCountry])
 
   return (
     <div className={styles.container}>
@@ -31,6 +32,7 @@ function GameLayout() {
         <Routes>
           <Route index element={<Building />} />
           <Route path="/building-shop" element={<BuildingShop />} />
+          <Route path="/marketplace/*" element={<MarketplaceLayout />} />
         </Routes>
       </div>
       <NavigationPanel />

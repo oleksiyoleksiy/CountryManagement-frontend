@@ -1,0 +1,109 @@
+@import '../../variables.scss';
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.seller {
+  &__name {
+    max-width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.holder {
+  border-radius: 10px;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: $bg-200;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.backButton {
+  align-self: start;
+}
+
+.image {
+  width: 150px;
+  height: 150px;
+}
+
+.content {
+  display: flex;
+  gap: 30px;
+}
+
+.backButton {
+  color: white;
+  font-size: 20px;
+}
+
+.form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: white;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__input {
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__title {
+    font-size: 30px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 150px;
+  }
+
+  &__button {
+    border-radius: 5px;
+    color: $text-100;
+    background-color: $primary-100;
+    padding: 10px;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $primary-200;
+    }
+  }
+}
+
+.total {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+  &__content {
+    font-size: large;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &__icon {
+    width: 30px;
+    height: 30px;
+  }
+}

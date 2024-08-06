@@ -1,11 +1,29 @@
+import { toast } from 'react-toastify'
 import axiosInstance from '../api/axiosInstance'
 
-export const login = async credentials => {
-  const response = await axiosInstance.post('/login', credentials)
-  return response.data
-}
+export const authService = {
+  login: async data => {
+    const response = await axiosInstance.post('/login', data)
+    return response.data
+  },
 
-export const register = async userData => {
-  const response = await axiosInstance.post('/register', userData)
-  return response.data
+  register: async data => {
+    const response = await axiosInstance.post('/register', data)
+    return response.data
+  },
+
+  refresh: async token => {
+    const response = await axiosInstance.post('/refresh', null, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    return response.data
+  },
+
+  currentUser: async token => {
+    const response = await axiosInstance.get('/user/current', null, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+
+    return response.data
+  },
 }

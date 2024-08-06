@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styles from './index.module.scss'
-import {
-  countryBuildingCollectIncome,
-  countryIndex,
-} from '../../services/countryService'
+import { countryService } from '../../services/countryService'
 import { countryActions } from '../../store/countrySlice'
 import { useDebouncedCallback } from 'use-debounce'
 import { Coin } from 'react-bootstrap-icons'
 import moment from 'moment'
+import { countryBuildingService } from '../../services/countryBuildingService'
 
 function Building() {
   const country = useSelector(state => state.country.currentCountry)
@@ -24,7 +22,7 @@ function Building() {
   }, [])
 
   const fetchCountry = async () => {
-    const response = await countryIndex(token)
+    const response = await countryService.index(token)
     const countryInfo = response.filter(item => {
       return item.country.id === country.id
     })[0]
@@ -72,7 +70,7 @@ function Building() {
   }, 500)
 
   const collectIncome = async buildingId => {
-    const response = await countryBuildingCollectIncome(
+    const response = await countryBuildingService.collectIncome(
       token,
       country.id,
       buildingId

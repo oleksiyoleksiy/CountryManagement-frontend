@@ -6,6 +6,7 @@ import {
   Check,
   Check2All,
   CheckCircleFill,
+  GlobeEuropeAfrica,
   MinecartLoaded,
 } from 'react-bootstrap-icons'
 import { NavLink } from 'react-router-dom'
@@ -17,7 +18,7 @@ function InfoPanel() {
     return (
       <div key={type} className={styles.resource}>
         <img
-          src={`./${type}.webp`}
+          src={`/${type}.webp`}
           title={type}
           className={styles.resource__icon}
         />
@@ -30,7 +31,7 @@ function InfoPanel() {
     return resources.map((item, index) => (
       <div key={index} className={styles.resource}>
         <img
-          src={`./${item}.webp`}
+          src={`/${item}.webp`}
           title={item}
           className={styles.resource__icon}
         />
@@ -57,7 +58,7 @@ function InfoPanel() {
             className={styles.countryNameWrapper__link}
             to="/select-country"
           >
-            <ArrowRepeat className={styles.countryNameWrapper__icon} />
+            <GlobeEuropeAfrica className={styles.countryNameWrapper__icon} />
           </NavLink>
         </div>
         <div className={styles.resources}>
