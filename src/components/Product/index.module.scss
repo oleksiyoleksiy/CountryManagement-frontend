@@ -7,15 +7,12 @@
   width: 100%;
   grid-template-columns: repeat(
     auto-fill,
-    minmax(200px, 1fr)
+    minmax(250px, 1fr)
   ); /* Responsive columns */
   height: 400px;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(
-      auto-fill,
-      minmax(250px, 1fr)
-    ); /* Larger cards for wider screens */
+  @media (max-width: 530px) {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
 

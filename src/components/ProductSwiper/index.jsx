@@ -3,12 +3,23 @@ import styles from './index.module.scss'
 import 'swiper/css'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 function ProductSwiper() {
   const products = useSelector(state => state.product.products)
+  const [slidesCount, setSlidesCount] = useState(5)
+
+  useEffect(() => {
+    calculateSlidesPerView()
+  }, [])
+
+  const calculateSlidesPerView = () => {
+    const slidesPerView = Math.round(window.innerWidth / 300)
+    setSlidesCount(slidesPerView)
+  }
 
   return (
-    <Swiper spaceBetween={50} slidesPerView={5} loop>
+    <Swiper spaceBetween={30} slidesPerView={slidesCount} loop>
       {products.length > 0 &&
         products.map((product, index) => (
           <SwiperSlide key={index}>
@@ -25,7 +36,7 @@ function ProductSwiper() {
 
               <div className={styles.seller}>
                 sold by{' '}
-                <span className={styles.seller__value}>{product.seller}</span>
+                <span className={styles.seller__value}>{product.country.name}</span>
               </div>
               <Link
                 className={styles.card__button}

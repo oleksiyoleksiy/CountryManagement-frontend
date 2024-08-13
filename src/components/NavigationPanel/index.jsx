@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './index.module.scss'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import './index.scss'
 import {
   ArrowLeftSquareFill,
@@ -10,6 +10,7 @@ import {
   BuildingFill,
   BuildingFillAdd,
   CartFill,
+  GlobeEuropeAfrica,
   HousesFill,
   List,
   ShopWindow,
@@ -18,6 +19,9 @@ import {
 function NavigationPanel() {
   return (
     <nav className={styles.navbar}>
+      <Link className={`${styles.navbar__link} ${styles.selectCountriesLink}`} to="/select-country">
+        <GlobeEuropeAfrica className={styles.navbar__icon} />
+      </Link>
       <NavLink active="true" className={styles.navbar__link} to="/">
         <BuildingFill className={styles.navbar__icon} />
       </NavLink>

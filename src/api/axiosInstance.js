@@ -2,7 +2,11 @@ import axios from 'axios'
 import store from '../store'
 import { authActions } from '../store/authSlice'
 import { authService } from '../services/authService'
-import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { getNavigate } from '../navigate'
+import { useSelector } from 'react-redux'
+import useEcho from '../hooks/useEcho'
+import { getEcho } from '../echo'
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_DOMAIN,
@@ -11,90 +15,63 @@ const axiosInstance = axios.create({
   },
 })
 
-const getAccessToken = () => store.getState().auth.token
-const getRefreshToken = () => store.getState().auth.refreshToken
-
-// Запобігання циклічним запитам
-let isRefreshing = false
-let failedQueue = []
-
-const processQueue = (error, token = null) => {
-  failedQueue.forEach(prom => {
-    if (error) {
-      prom.reject(error)
-    } else {
-      prom.resolve(token)
-    }
-  })
-  failedQueue = []
-}
-
-// Request interceptor to add access token to headers
 axiosInstance.interceptors.request.use(
   config => {
-    const token = getAccessToken()
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+    const echo = getEcho()
+    const socketId = echo ? echo.socketId() : null
+    if (socketId) {
+      config.headers['X-Socket-Id'] = socketId
+    }
+    const accessToken = localStorage.getItem('accessToken')
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`
     }
     return config
   },
-  error => Promise.reject(error)
+  error => {
+    return Promise.reject(error)
+  }
 )
 
-// Response interceptor to handle token refresh
 axiosInstance.interceptors.response.use(
-  response => response,
+  response => response, // Directly return successful responses.
   async error => {
     const originalRequest = error.config
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject })
-        })
-          .then(token => {
-            originalRequest.headers.Authorization = `Bearer ${token}`
-            return axiosInstance(originalRequest)
-          })
-          .catch(err => Promise.reject(err))
-      }
-
+    if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
-      isRefreshing = true
-
-      const refreshToken = getRefreshToken()
-      if (!refreshToken) {
-        store.dispatch(authActions.logout())
-        useNavigate('/login')
-        return Promise.reject(error)
-      }
-
       try {
-        const response = await authService.refresh(refreshToken)
-        
-        store.dispatch(authActions.setToken(response))
+        const refreshToken = store.getState().auth.refreshToken
 
-        axiosInstance.defaults.headers.common.Authorization = `Bearer ${response.accessToken}`
-        originalRequest.headers.Authorization = `Bearer ${response.accessToken}`
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_DOMAIN}/refresh`,
+          null,
+          {
+            headers: {
+              Accept: 'application/json',
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          }
+        )
 
-        processQueue(null, response.accessToken)
+        store.dispatch(authActions.setToken(response.data))
+
+        const { accessToken } = response.data
+
+        axiosInstance.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${accessToken}`
 
         return axiosInstance(originalRequest)
-
       } catch (refreshError) {
-        processQueue(refreshError, null)
+        console.error('Token refresh failed:', refreshError)
+        const navigate = getNavigate()
         store.dispatch(authActions.logout())
-        useNavigate('/login')
+        navigate('/login')
         return Promise.reject(refreshError)
-      } finally {
-        isRefreshing = false
       }
-    } else if (error.response?.status === 401) {
-      store.dispatch(authActions.logout())
-      useNavigate('/login')
     }
-
-    return Promise.reject(error)
+    return Promise.reject(error) // For all other errors, return the error as is.
   }
 )
 

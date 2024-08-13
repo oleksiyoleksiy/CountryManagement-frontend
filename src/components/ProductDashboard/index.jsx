@@ -19,8 +19,10 @@ function ProductDashboard() {
   }, [])
 
   const fetchProduct = async () => {
-    const response = await productService.index(currentCountry.id, token)
-    dispatch(productActions.setProducts(response))
+    if (currentCountry) {
+      const response = await productService.index(currentCountry.id, token)
+      dispatch(productActions.setProducts(response))
+    }
   }
 
   return (

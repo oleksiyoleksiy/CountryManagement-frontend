@@ -54,7 +54,7 @@ function Product() {
 
               <div className={styles.seller}>
                 sold by{' '}
-                <span className={styles.seller__value}>{product.seller}</span>
+                <span className={styles.seller__value}>{product.country.name}</span>
               </div>
               <Link
                 className={styles.card__button}

@@ -10,14 +10,18 @@ const useEcho = () => {
 
   const echoInstance = useMemo(() => {
     return new Echo({
-      broadcaster: import.meta.env.VITE_BROADCASTER,
+      broadcaster: 'reverb',
       key: import.meta.env.VITE_REVERB_APP_KEY,
+      wsHost: import.meta.env.VITE_REVERB_HOST,
+      wsPort: import.meta.env.VITE_REVERB_PORT,
+      wssPort: import.meta.env.VITE_REVERB_PORT,
+      forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
       authEndpoint: import.meta.env.VITE_AUTH_ENDPOINT,
-      forceTLS: true,
+      enabledTransports: ['ws', 'wss'],
       auth: {
         headers: {
           Accept: 'application/json',
-          Authorization: 'Bearer ' + token,
+          Authorization: `Bearer ${token}`,
         },
       },
     })

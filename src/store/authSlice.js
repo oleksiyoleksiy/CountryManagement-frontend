@@ -6,6 +6,7 @@ const authSlice = createSlice({
     user: null,
     token: localStorage.getItem('accessToken'),
     refreshToken: localStorage.getItem('refreshToken'),
+    
   },
   reducers: {
     setUser(state, action) {

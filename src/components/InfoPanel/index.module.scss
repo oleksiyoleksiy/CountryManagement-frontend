@@ -8,17 +8,35 @@
   flex-wrap: wrap;
   align-items: center;
   background-color: $bg-200;
+
+  @media (max-width: 1000px) {
+    gap: 20px;
+  }
 }
 
 .resources {
   display: flex;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 40px;
+
+  @media (max-width: 1000px) {
+    gap: 30px !important;
+  }
+
+  @media (max-width: 1000px) {
+    padding-left: 30px;
+  }
 }
 
 .countryNameWrapper {
   display: flex;
   align-items: center;
   gap: 10px;
+
+  @media (max-width: 1000px) {
+    width: 100%;
+    justify-content: space-between;
+  }
 
   &__link {
     display: flex;
@@ -28,10 +46,14 @@
     padding: 5px;
     background-color: $primary-100;
     font-size: 17px;
-    transition: .3s all ease-in-out;
+    transition: 0.3s all ease-in-out;
 
     &:hover {
       background-color: $primary-200;
+    }
+
+    @media (max-width: 1000px) {
+      display: none;
     }
   }
 
@@ -42,6 +64,10 @@
 }
 
 .countryName {
+  @media (max-width: 1000px) {
+    font-size: 12px;
+  }
+
   padding: 10px;
   color: $text-100;
   background-color: $bg-100;
@@ -58,6 +84,39 @@
   background-color: $bg-100;
   position: relative;
   border-radius: 5px;
+
+  &_sm {
+    display: none;
+  }
+
+  @media (max-width: 1000px) {
+    &_lg {
+      display: none;
+    }
+
+    &_sm {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    padding: 5px 5px 5px 5px;
+
+    &__iconWrapper {
+      padding: 5px !important;
+    }
+
+    &__icon {
+      font-size: 15px !important;
+    }
+
+    .resource {
+      &__icon {
+        width: 20px !important;
+        height: 20px !important;
+      }
+    }
+  }
 
   &__iconWrapper {
     left: -20px;
@@ -102,6 +161,21 @@
   padding: 5px;
   width: 75px;
 
+  @media (max-width: 1200px) {
+    width: 55px;
+
+    &__value {
+      font-size: 10px;
+    }
+
+    &__icon {
+      left: -20px !important;
+      padding: 2px !important;
+      width: 30px !important;
+      height: 30px !important;
+    }
+  }
+
   &__icon {
     left: -30px;
     top: 50%;
@@ -119,8 +193,4 @@
     padding-left: 10px;
     color: $text-100;
   }
-}
-
-.resources {
-  gap: 40px;
 }

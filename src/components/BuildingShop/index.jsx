@@ -34,7 +34,7 @@ const BuildingShop = () => {
       const building = response.buildings.filter(
         item => item.id === buildingId
       )[0]
-      toast(`the "${building.name}" building was purchased`)
+      toast.success(`the "${building.name}" building was purchased`)
     },
     [dispatch, token]
   )

@@ -9,22 +9,22 @@ function AuthUser() {
   const token = useSelector(state => state.auth.token)
   const dispatch = useDispatch()
 
-  const redirectIfNoToken = () => {
-    const storedAccessToken = localStorage.getItem('accessToken')
-    const storedRefreshToken = localStorage.getItem('refreshToken')
-    if (!storedAccessToken || !storedRefreshToken || !token) {
-      navigate('/login')
-    }
-  }
+  // const redirectIfNoToken = () => {
+  //   const storedAccessToken = localStorage.getItem('accessToken')
+  //   const storedRefreshToken = localStorage.getItem('refreshToken')
+  //   if (!storedAccessToken || !storedRefreshToken || !token) {
+  //     navigate('/login')
+  //   }
+  // }
 
   const fetchUser = async () => {
     const response = await authService.currentUser(token)
     dispatch(authActions.setUser(response))    
   }
 
-  useEffect(() => {
-    redirectIfNoToken()
-  }, [])
+  // useEffect(() => {
+  //   redirectIfNoToken()
+  // }, [])
 
 
   useEffect(() => {

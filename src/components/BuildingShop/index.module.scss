@@ -5,12 +5,20 @@
   gap: 10px;
   padding: 10px;
   width: 100%;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(250px, 1fr)
+  ); /* Responsive columns */
   height: 520px;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Larger cards for wider screens */
+  @media (max-width: 530px) {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
+
+  @media (max-width: 340px) {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
 }
 
 .card {
@@ -25,6 +33,21 @@
   align-items: center;
   justify-content: space-between;
   transition: transform 0.2s;
+
+  @media (max-width: 600px) {
+    &__name {
+      font-size: 16px !important;
+    }
+
+    &__energyPrice {
+      font-size: 13px;
+    }
+
+    &__button {
+      font-size: 12px !important;
+    }
+  
+  }
 
   &__name {
     font-size: 20px;

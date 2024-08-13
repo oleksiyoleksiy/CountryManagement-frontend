@@ -4,6 +4,7 @@ import { countryService } from '../../services/countryService'
 import { useDispatch, useSelector } from 'react-redux'
 import { countryActions } from '../../store/countrySlice'
 import { Link, useNavigate } from 'react-router-dom'
+import { XLg } from 'react-bootstrap-icons'
 
 function CreateCountry() {
   const [name, setName] = useState(null)
@@ -37,8 +38,8 @@ function CreateCountry() {
     <div className={styles.container}>
       <div className={styles.holder}>
         <div className={styles.closeButtonHolder}>
-          <Link to={'/select-country'} className={styles.closeButton}>
-            ✖
+          <Link to={-1} className={styles.closeButton}>
+            <XLg className={styles.closeButtonIcon} />
           </Link>
         </div>
         <form onSubmit={e => createCountry(e)} className={styles.form}>

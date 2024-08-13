@@ -15,7 +15,7 @@ const productSlice = createSlice({
     },
     updateProduct(state, action) {
       const product = action.payload
-      state.products = state.products.filter(item =>
+      state.products = state.products.map(item =>
         item.id === product.id ? product : item
       )
     },
@@ -30,7 +30,7 @@ const productSlice = createSlice({
     },
     updateMyProduct(state, action) {
       const product = action.payload
-      state.myProducts = state.myProducts.filter(item =>
+      state.myProducts = state.myProducts.map(item =>
         item.id === product.id ? product : item
       )
     },
@@ -44,7 +44,7 @@ const productSlice = createSlice({
     },
     clearProducts(state) {
       state.products = []
-    }
+    },
   },
 })
 

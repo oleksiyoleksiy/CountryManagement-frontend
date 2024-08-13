@@ -13,7 +13,6 @@ function CreateProduct() {
   const [fossil, setFossil] = useState(null)
   const [count, setCount] = useState(null)
   const [price, setPrice] = useState(null)
-  const [isAgreed, setAgree] = useState(false)
   const fossils = ['uranium', 'oil', 'copper', 'iron', 'coal']
   const types = [{ label: 'fossil', value: 1 }]
   const [errors, setErrors] = useState({
@@ -21,6 +20,7 @@ function CreateProduct() {
     count: null,
     fossil: null,
     price: null,
+    fee: null,
   })
   const token = useSelector(state => state.auth.token)
   const currentCountry = useSelector(state => state.country.currentCountry)
@@ -49,9 +49,8 @@ function CreateProduct() {
           count: errors.count,
           fossil: errors.fossil,
           price: errors.price,
+          fee: errors.fee,
         })
-
-        toast.error(error.response.data.message)
       }
     }
   }
@@ -61,101 +60,126 @@ function CreateProduct() {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.holder}>
-        <div className={styles.backButtonHolder}>
-          <button onClick={() => navigate(-1)} className={styles.backButton}>
-            <ArrowLeft className={styles.backIcon} />
-          </button>
-        </div>
-        <form onSubmit={e => createProduct(e)} className={styles.form}>
-          <div className={styles.form__title}>Creating product</div>
-          <div className={styles.form__group}>
-            <div className={styles.form__inputGroup}>
-              <label className={styles.form__label}>Type</label>
-              <div className={styles.types}>
-                {types.map((item, index) => (
-                  <div
-                    key={index}
-                    className={`${styles.type} ${
-                      type === item.value ? styles.type_selected : ''
-                    }`}
-                  >
-                    <div className={styles.type__label}>{item.label}</div>
-                    <input
-                      required
-                      checked={type === item.value}
-                      value={item.value}
-                      name="type"
-                      type="radio"
-                      onChange={e => setType(e.target.value)}
-                      className={styles.type__radio}
-                    />
-                  </div>
-                ))}
-                {errors.type && (
-                  <ul className={styles.form__errorList}>
-                    {errors.type.map((item, index) => (
-                      <li key={index} className={styles.form__error}>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
-            {type === 1 && (
+    currentCountry && (
+      <div className={styles.container}>
+        <div className={styles.holder}>
+          <div className={styles.backButtonHolder}>
+            <button onClick={() => navigate(-1)} className={styles.backButton}>
+              <ArrowLeft className={styles.backIcon} />
+            </button>
+          </div>
+          <form onSubmit={e => createProduct(e)} className={styles.form}>
+            <div className={styles.form__title}>Creating product</div>
+            <div className={styles.form__group}>
               <div className={styles.form__inputGroup}>
-                <label className={styles.form__label}>Fossil</label>
-                <div className={styles.fossils}>
-                  {fossils.map((item, index) => (
+                <label className={styles.form__label}>Type</label>
+                <div className={styles.types}>
+                  {types.map((item, index) => (
                     <div
                       key={index}
-                      className={`${styles.fossil} ${
-                        fossil === item ? styles.fossil_selected : ''
+                      className={`${styles.type} ${
+                        type === item.value ? styles.type_selected : ''
                       }`}
                     >
-                      <img
-                        className={styles.fossil__image}
-                        src={`/${item}.webp`}
-                        alt="resource"
-                      />
+                      <div className={styles.type__label}>{item.label}</div>
                       <input
                         required
-                        value={item}
-                        name="fossil"
+                        checked={type === item.value}
+                        value={item.value}
+                        name="type"
                         type="radio"
-                        onChange={e => setFossil(e.target.value)}
-                        className={styles.fossil__radio}
+                        onChange={e => setType(e.target.value)}
+                        className={styles.type__radio}
                       />
                     </div>
                   ))}
+                  {errors.type && (
+                    <ul className={styles.form__errorList}>
+                      {errors.type.map((item, index) => (
+                        <li key={index} className={styles.form__error}>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
-                {errors.fossil && (
-                  <ul className={styles.form__errorList}>
-                    {errors.fossil.map((item, index) => (
-                      <li key={index} className={styles.form__error}>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                )}
               </div>
-            )}
-
-            <div className={styles.form__inputGroup}>
-              <label className={styles.form__label}>Count</label>
-              <input
-                required
-                name="type"
-                type="number"
-                min={1}
-                onChange={e => setCount(e.target.value)}
-                className={styles.form__input}
-              />
-              {errors.count && (
+              {type === 1 && (
+                <div className={styles.form__inputGroup}>
+                  <label className={styles.form__label}>Fossil</label>
+                  <div className={styles.fossils}>
+                    {fossils.map((item, index) => (
+                      <div
+                        key={index}
+                        disabled={currentCountry.resources[item] === 0}
+                        className={`${styles.fossil} ${
+                          fossil === item ? styles.fossil_selected : ''
+                        }`}
+                      >
+                        <img
+                          className={styles.fossil__image}
+                          src={`/${item}.webp`}
+                          alt="resource"
+                        />
+                        <input
+                          required
+                          value={item}
+                          name="fossil"
+                          type="radio"
+                          onChange={e => setFossil(e.target.value)}
+                          className={styles.fossil__radio}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  {errors.fossil && (
+                    <ul className={styles.form__errorList}>
+                      {errors.fossil.map((item, index) => (
+                        <li key={index} className={styles.form__error}>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+              {fossil && (
+                <div className={styles.form__inputGroup}>
+                  <label className={styles.form__label}>Count</label>
+                  <input
+                    required
+                    name="type"
+                    type="number"
+                    min={1}
+                    max={currentCountry.resources[fossil]}
+                    onChange={e => setCount(e.target.value)}
+                    className={styles.form__input}
+                  />
+                  {errors.count && (
+                    <ul className={styles.form__errorList}>
+                      {errors.count.map((item, index) => (
+                        <li key={index} className={styles.form__error}>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+              <div className={styles.form__inputGroup}>
+                <label className={styles.form__label}>Price per unit</label>
+                <input
+                  required
+                  name="type"
+                  type="number"
+                  min={1000}
+                  onChange={e => setPrice(e.target.value)}
+                  className={styles.form__input}
+                />
+              </div>
+              {errors.price && (
                 <ul className={styles.form__errorList}>
-                  {errors.count.map((item, index) => (
+                  {errors.price.map((item, index) => (
                     <li key={index} className={styles.form__error}>
                       {item}
                     </li>
@@ -163,56 +187,35 @@ function CreateProduct() {
                 </ul>
               )}
             </div>
-            <div className={styles.form__inputGroup}>
-              <label className={styles.form__label}>Price per unit</label>
-              <input
-                required
-                name="type"
-                type="number"
-                min={1000}
-                onChange={e => setPrice(e.target.value)}
-                className={styles.form__input}
-              />
-            </div>
-            {errors.price && (
-              <ul className={styles.form__errorList}>
-                {errors.price.map((item, index) => (
-                  <li key={index} className={styles.form__error}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          <div className={styles.form__buttonContainer}>
-            <div className={styles.checkbox}>
-              <div
-                onClick={() => handleCheckboxClick()}
-                className={`${styles.checkbox__button} ${
-                  isAgreed ? styles.checkbox_checked : ''
-                }`}
-              >
-                {isAgreed && <Check className={styles.checkbox__icon} />}
+            <div className={styles.form__buttonContainer}>
+              <div className={styles.form__buttonHolder}>
+                <button
+                  disabled={currentCountry.resources['money'] < 1000 || !fossil}
+                  type="submit"
+                  className={styles.button}
+                >
+                  <img
+                    src="/money.webp"
+                    alt="money-icon"
+                    className={styles.button__icon}
+                  />
+                  <div className={styles.button__value}>1000</div>
+                </button>
               </div>
-              <div className={styles.checkbox__message}>
-                I agree to pay 2.5% of the value of the goods for the
-                marketplace fee
-              </div>
+              {errors.fee && (
+                <ul className={styles.form__errorList}>
+                  {errors.fee.map((item, index) => (
+                    <li key={index} className={styles.form__error}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
-
-            <div className={styles.form__buttonHolder}>
-              <button
-                disabled={!isAgreed}
-                type="submit"
-                className={styles.form__button}
-              >
-                Create
-              </button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
+    )
   )
 }
 
