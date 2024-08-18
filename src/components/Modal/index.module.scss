@@ -17,44 +17,37 @@
   flex-direction: column;
   gap: 20px;
   padding: 20px;
-  background-color: $bg-200;
+  background-color: $bg-300;
   border-radius: 10px;
 }
 
 .message {
   color: $text-100;
-  font-weight: 500;
   font-size: 20px;
 }
 
 .buttonHolder {
   display: flex;
-  flex-direction: column;
+  gap: 5px;
 }
 
 .buttonCancel {
-  border: 2px solid $text-100;
-  border-top: none;
-  border-radius: 0 0 5px 5px;
-  letter-spacing: 1px;
-  height: 40px;
-  color: rgba($text-100, 0.7);
-  padding: 10px;
-  transition: 0.3s all ease-in-out;
   &:hover {
-    color: $text-100;
-    background-color: rgba($bg-100, 0.3);
+    background-color: $primary-200;
   }
 }
 
-.buttonApply {
-  border: 2px solid $text-100;
+.button {
+  border-radius: 5px;
+  width: 50%;
   height: 40px;
-  border-radius: 5px 5px 0 0;
-  letter-spacing: 1px;
   color: $text-100;
+  font-size: 23px;
   padding: 10px;
   transition: 0.3s all ease-in-out;
+}
+
+.buttonApply {
   &:hover {
     background-color: rgb(192, 0, 13);
   }

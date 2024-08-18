@@ -6,6 +6,7 @@ import { X, XLg } from 'react-bootstrap-icons'
 import { productService } from '../../services/productService'
 import { productActions } from '../../store/productSlice'
 import { countryActions } from '../../store/countrySlice'
+import useLanguage from '../../hooks/useLanguage'
 
 function EditProduct() {
   const { id } = useParams()
@@ -19,8 +20,10 @@ function EditProduct() {
   const [product, setProduct] = useState(null)
   const [count, setCount] = useState(null)
   const [price, setPrice] = useState(null)
+  const [isChanged, setChanged] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const lang = useLanguage()
 
   const redirectIfNoProduct = () => {
     if (!myProducts.some(item => item.id == id)) {
@@ -42,13 +45,12 @@ function EditProduct() {
         data,
         token
       )
-      
-      console.log(response);
+
+      console.log(response)
       dispatch(productActions.updateMyProduct(response.product))
       dispatch(countryActions.setCurrentCountry(response.country))
       navigate('/marketplace/my-product')
     } catch (error) {
-      
       if (error.response.data) {
         let errors = error.response.data.errors
 
@@ -59,6 +61,13 @@ function EditProduct() {
       }
     }
   }
+
+  useEffect(() => {
+    if (product) {
+      const isValuesChanged = count == product.count && price == product.price
+      setChanged(!isValuesChanged)
+    }
+  }, [count, price])
 
   useEffect(() => {
     redirectIfNoProduct()
@@ -86,11 +95,14 @@ function EditProduct() {
               />
             </div>
             <form onSubmit={e => handleFormSubmit(e)} className={styles.form}>
-              <div className={styles.form__title}>Editing product</div>
+              <div className={styles.form__title}>{lang.editProduct.title}</div>
               <div className={styles.form__content}>
                 <div className={styles.form__group}>
-                  <label className={styles.form__label}>count</label>
+                  <label className={styles.form__label}>
+                    {lang.editProduct.form.inputs.count}
+                  </label>
                   <input
+                    required
                     className={styles.form__input}
                     min={1}
                     onChange={e => setCount(e.target.value)}
@@ -108,8 +120,11 @@ function EditProduct() {
                   )}
                 </div>
                 <div className={styles.form__group}>
-                  <label className={styles.form__label}>price</label>
+                  <label className={styles.form__label}>
+                    {lang.editProduct.form.inputs.price}
+                  </label>
                   <input
+                    required
                     className={styles.form__input}
                     onChange={e => setPrice(e.target.value)}
                     min={1000}
@@ -128,8 +143,12 @@ function EditProduct() {
                 </div>
               </div>
               <div className={styles.form__buttonHolder}>
-                <button type="submit" className={styles.form__button}>
-                  Update
+                <button
+                  disabled={!isChanged}
+                  type="submit"
+                  className={styles.form__button}
+                >
+                  {lang.editProduct.form.submitButton}
                 </button>
               </div>
             </form>

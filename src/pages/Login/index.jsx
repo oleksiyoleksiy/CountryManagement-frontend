@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { authActions } from '../../store/authSlice'
 import { authService } from '../../services/authService'
 import { toast } from 'react-toastify'
+import useLanguage from '../../hooks/useLanguage'
 
 function Login() {
   const [email, setEmail] = useState(null)
@@ -16,6 +17,7 @@ function Login() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const lang = useLanguage()
 
   const handleLogin = async e => {
     e.preventDefault()
@@ -43,17 +45,16 @@ function Login() {
       <div className={styles.holder}>
         <div className={styles.placeholder}>
           <div className={styles.placeholder__text}>
-            Немаєте облікового запису? Створіть новий, щоб користуватись нашим
-            сервісом.
+            {lang.login.placeholder.text}
           </div>
           <Link to={'/register'} className={styles.placeholder__button}>
-            Зареєструватись
+            {lang.login.placeholder.link}
           </Link>
         </div>
         <div className={styles.formHolder}>
           <div className={styles.formContainer}>
             <form className={styles.form} onSubmit={e => handleLogin(e)}>
-              <h1 className={styles.form__title}>Вхід</h1>
+              <h1 className={styles.form__title}>{lang.login.title}</h1>
               <div className={styles.form__group}>
                 <div className={styles.form__inputGroup}>
                   <input
@@ -63,7 +64,9 @@ function Login() {
                     placeholder=""
                     className={styles.form__input}
                   />
-                  <label className={styles.form__label}>Електронна пошта</label>
+                  <label className={styles.form__label}>
+                    {lang.login.form.inputs.email}
+                  </label>
                 </div>
                 {errors.email && (
                   <ul className={styles.form__errorList}>
@@ -84,7 +87,9 @@ function Login() {
                     placeholder=""
                     className={styles.form__input}
                   />
-                  <label className={styles.form__label}>Пароль</label>
+                  <label className={styles.form__label}>
+                    {lang.login.form.inputs.password}
+                  </label>
                 </div>
                 {errors.password && (
                   <ul className={styles.form__errorList}>
@@ -98,7 +103,9 @@ function Login() {
               </div>
               <div className={styles.form__buttonContainer}>
                 <div className={styles.form__buttonHolder}>
-                  <button className={styles.form__button}>Увійти</button>
+                  <button className={styles.form__button}>
+                    {lang.login.form.submitButton}
+                  </button>
                 </div>
               </div>
             </form>

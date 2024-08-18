@@ -34,7 +34,7 @@ const productSlice = createSlice({
         item.id === product.id ? product : item
       )
     },
-    deleteMyProduct(state, action) {
+    deleteMyProduct(state, action) {    
       state.myProducts = state.myProducts.filter(
         item => item.id !== action.payload
       )

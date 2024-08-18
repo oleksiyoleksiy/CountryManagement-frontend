@@ -17,20 +17,52 @@
   gap: 10px;
 
   &__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 5px;
     padding: 10px;
     text-decoration: none;
     background-color: $primary-100;
     color: $text-100;
-    transition: .3s all ease-in-out;
-
+    transition: 0.3s all ease-in-out;
+    
     &:hover {
       background-color: $primary-200;
+      
+      .link__countryIcon {
+        background-color: $primary-200;
+      }
     }
   }
-
+  
   &__input {
     border-radius: 5px;
     padding: 10px;
+    border: none;
   }
+}
+
+.link {
+  &__icon {
+    font-size: 20px;
+  }
+  
+  &__countryIcon {
+    transition: 0.3s all ease-in-out;
+    padding: 3px;
+    font-size: 20px;
+    background-color: $primary-100;
+    border-radius: 50%;
+    position: absolute;
+    top: 65%;
+    left: 65%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+
+
+.myProductLink {
+  position: relative;
 }

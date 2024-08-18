@@ -8,6 +8,7 @@ import { PencilFill, Trash2Fill, TrashFill } from 'react-bootstrap-icons'
 import { countryActions } from '../../store/countrySlice'
 import { Link, Route, Routes } from 'react-router-dom'
 import EditProduct from '../EditProduct'
+import useLanguage from '../../hooks/useLanguage'
 
 function MyProduct() {
   const myProducts = useSelector(state => state.product.myProducts)
@@ -15,12 +16,17 @@ function MyProduct() {
   const token = useSelector(state => state.auth.token)
   const [filteredProducts, setFilteredProducts] = useState([])
   const dispatch = useDispatch()
+  const lang = useLanguage()
 
   useEffect(() => {
     if (currentCountry) {
       fetchMyProduct()
     }
   }, [currentCountry])
+
+  useEffect(() => {
+    setFilteredProducts(myProducts)
+  }, [myProducts])
 
   const fetchMyProduct = async () => {
     const response = await productService.myProductIndex(
@@ -74,7 +80,9 @@ function MyProduct() {
                   />
                   <div className={styles.price__value}>{item.price}</div>
                 </div>
-                <div className={styles.price__label}>per unit</div>
+                <div className={styles.price__label}>
+                  {lang.general.perUnit}
+                </div>
               </div>
               <div className={styles.card__buttonHolder}>
                 <Link
@@ -94,10 +102,7 @@ function MyProduct() {
           ))}
       </div>
       <Routes>
-        <Route
-          path="/edit/:id"
-          element={<EditProduct />}
-        />
+        <Route path="/edit/:id" element={<EditProduct />} />
       </Routes>
     </>
   )

@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { authService } from '../../services/authService'
 import { authActions } from '../../store/authSlice'
+import useLanguage from '../../hooks/useLanguage'
 
 function Register() {
   const [name, setName] = useState(null)
@@ -16,6 +17,7 @@ function Register() {
     password: null,
   })
 
+  const lang = useLanguage()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -53,16 +55,18 @@ function Register() {
       <div className={styles.holder}>
         <div className={styles.placeholder}>
           <div className={styles.placeholder__text}>
-            Маєте обліковий запис? Увійдіть, щоб користуватись нашим сервісом.
+            {lang.register.placeholder.text}
           </div>
           <Link to={'/login'} className={styles.placeholder__buttonContainer}>
-            <div className={styles.placeholder__button}>Увійти</div>
+            <div className={styles.placeholder__button}>
+              {lang.register.placeholder.link}
+            </div>
           </Link>
         </div>
         <div className={styles.formHolder}>
           <div className={styles.formContainer}>
             <form className={styles.form} onSubmit={e => handleRegister(e)}>
-              <h1 className={styles.form__title}>Реєстрація</h1>
+              <h1 className={styles.form__title}>{lang.register.title}</h1>
               <div className={styles.form__group}>
                 <div className={styles.form__inputGroup}>
                   <input
@@ -72,7 +76,9 @@ function Register() {
                     placeholder=""
                     className={styles.form__input}
                   />
-                  <label className={styles.form__label}>Ім'я</label>
+                  <label className={styles.form__label}>
+                    {lang.register.form.inputs.name}
+                  </label>
                 </div>
                 {errors.name && (
                   <ul className={styles.form__errorList}>
@@ -91,7 +97,9 @@ function Register() {
                     placeholder=""
                     className={styles.form__input}
                   />
-                  <label className={styles.form__label}>Електронна пошта</label>
+                  <label className={styles.form__label}>
+                    {lang.register.form.inputs.email}
+                  </label>
                 </div>
                 {errors.email && (
                   <ul className={styles.form__errorList}>
@@ -110,7 +118,9 @@ function Register() {
                     placeholder=""
                     className={styles.form__input}
                   />
-                  <label className={styles.form__label}>Пароль</label>
+                  <label className={styles.form__label}>
+                    {lang.register.form.inputs.password}
+                  </label>
                 </div>
                 {errors.password && (
                   <ul className={styles.form__errorList}>
@@ -130,14 +140,14 @@ function Register() {
                     className={styles.form__input}
                   />
                   <label className={styles.form__label}>
-                    Підтвердження паролю
+                    {lang.register.form.inputs.passwordConfirmation}
                   </label>
                 </div>
               </div>
               <div className={styles.form__buttonContainer}>
                 <div className={styles.form__buttonHolder}>
                   <button className={styles.form__button}>
-                    Зареєструватись
+                    {lang.register.form.submitButton}
                   </button>
                 </div>
               </div>

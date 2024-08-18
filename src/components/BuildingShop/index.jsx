@@ -8,12 +8,15 @@ import { CartFill } from 'react-bootstrap-icons'
 import { useDebouncedCallback } from 'use-debounce'
 import { toast } from 'react-toastify'
 import { countryBuildingService } from '../../services/countryBuildingService'
+import useLanguage from '../../hooks/useLanguage'
+
 
 const BuildingShop = () => {
   const dispatch = useDispatch()
   const buildings = useSelector(state => state.building.buildings)
   const token = useSelector(state => state.auth.token)
   const country = useSelector(state => state.country.currentCountry)
+  const lang = useLanguage()
 
   const fetchBuildings = useCallback(async () => {
     if (token) {
@@ -78,7 +81,7 @@ const BuildingShop = () => {
                 src="/time.webp"
                 alt="time-icon"
               />
-              <div className={styles.card__cooldown}>{product.cooldown}m</div>
+              <div className={styles.card__cooldown}>{product.cooldown}{lang.general.minute}</div>
             </div>
           </>
         )}

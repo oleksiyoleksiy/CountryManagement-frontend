@@ -4,9 +4,9 @@ import styles from './index.module.scss'
 import { countryService } from '../../services/countryService'
 import { countryActions } from '../../store/countrySlice'
 import { useDebouncedCallback } from 'use-debounce'
-import { Coin } from 'react-bootstrap-icons'
-import moment from 'moment'
 import { countryBuildingService } from '../../services/countryBuildingService'
+import moment from 'moment'
+import useLanguage from '../../hooks/useLanguage'
 
 function Building() {
   const country = useSelector(state => state.country.currentCountry)
@@ -14,6 +14,7 @@ function Building() {
   const token = useSelector(state => state.auth.token)
   const timers = useSelector(state => state.country.timers)
   const dispatch = useDispatch()
+  const lang = useLanguage()
 
   useEffect(() => {
     if (country) {
@@ -135,10 +136,7 @@ function Building() {
         </ul>
       ) : (
         <div className={styles.hint}>
-          <div className={styles.hint__message}>
-            The buildings you have purchased will be displayed here. It's time
-            to buy your first building!
-          </div>
+          <div className={styles.hint__message}>{lang.building.hint}</div>
           <img
             className={styles.hint__image}
             src="/hint-building.gif"

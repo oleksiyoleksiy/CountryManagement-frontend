@@ -4,9 +4,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { countryActions } from '../../store/countrySlice'
 import { Link, useNavigate } from 'react-router-dom'
 import { productService } from '../../services/productService'
-import { ArrowLeft, Check } from 'react-bootstrap-icons'
+import {
+  ArrowLeft,
+  ArrowLeftSquare,
+  ArrowLeftSquareFill,
+  ArrowReturnLeft,
+  Check,
+} from 'react-bootstrap-icons'
 import { productActions } from '../../store/productSlice'
 import { toast } from 'react-toastify'
+import useLanguage from '../../hooks/useLanguage'
 
 function CreateProduct() {
   const [type, setType] = useState(1)
@@ -26,6 +33,7 @@ function CreateProduct() {
   const currentCountry = useSelector(state => state.country.currentCountry)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+    const lang = useLanguage()
 
   const createProduct = async e => {
     e.preventDefault()
@@ -64,15 +72,17 @@ function CreateProduct() {
       <div className={styles.container}>
         <div className={styles.holder}>
           <div className={styles.backButtonHolder}>
-            <button onClick={() => navigate(-1)} className={styles.backButton}>
-              <ArrowLeft className={styles.backIcon} />
-            </button>
+            <Link to={-1} className={styles.backButton}>
+              <ArrowLeft className={styles.backButtonIcon} />
+            </Link>
           </div>
           <form onSubmit={e => createProduct(e)} className={styles.form}>
-            <div className={styles.form__title}>Creating product</div>
+            <div className={styles.form__title}>{lang.createProduct.title}</div>
             <div className={styles.form__group}>
               <div className={styles.form__inputGroup}>
-                <label className={styles.form__label}>Type</label>
+                <label className={styles.form__label}>
+                  {lang.createProduct.form.inputs.type}
+                </label>
                 <div className={styles.types}>
                   {types.map((item, index) => (
                     <div
@@ -106,7 +116,9 @@ function CreateProduct() {
               </div>
               {type === 1 && (
                 <div className={styles.form__inputGroup}>
-                  <label className={styles.form__label}>Fossil</label>
+                  <label className={styles.form__label}>
+                    {lang.createProduct.form.inputs.fossil}
+                  </label>
                   <div className={styles.fossils}>
                     {fossils.map((item, index) => (
                       <div
@@ -144,47 +156,53 @@ function CreateProduct() {
                 </div>
               )}
               {fossil && (
-                <div className={styles.form__inputGroup}>
-                  <label className={styles.form__label}>Count</label>
-                  <input
-                    required
-                    name="type"
-                    type="number"
-                    min={1}
-                    max={currentCountry.resources[fossil]}
-                    onChange={e => setCount(e.target.value)}
-                    className={styles.form__input}
-                  />
-                  {errors.count && (
+                <>
+                  <div className={styles.form__inputGroup}>
+                    <label className={styles.form__label}>
+                      {lang.createProduct.form.inputs.count}
+                    </label>
+                    <input
+                      required
+                      name="type"
+                      type="number"
+                      min={1}
+                      max={currentCountry.resources[fossil]}
+                      onChange={e => setCount(e.target.value)}
+                      className={styles.form__input}
+                    />
+                    {errors.count && (
+                      <ul className={styles.form__errorList}>
+                        {errors.count.map((item, index) => (
+                          <li key={index} className={styles.form__error}>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <div className={styles.form__inputGroup}>
+                    <label className={styles.form__label}>
+                      {lang.createProduct.form.inputs.price}
+                    </label>
+                    <input
+                      required
+                      name="type"
+                      type="number"
+                      min={1000}
+                      onChange={e => setPrice(e.target.value)}
+                      className={styles.form__input}
+                    />
+                  </div>
+                  {errors.price && (
                     <ul className={styles.form__errorList}>
-                      {errors.count.map((item, index) => (
+                      {errors.price.map((item, index) => (
                         <li key={index} className={styles.form__error}>
                           {item}
                         </li>
                       ))}
                     </ul>
                   )}
-                </div>
-              )}
-              <div className={styles.form__inputGroup}>
-                <label className={styles.form__label}>Price per unit</label>
-                <input
-                  required
-                  name="type"
-                  type="number"
-                  min={1000}
-                  onChange={e => setPrice(e.target.value)}
-                  className={styles.form__input}
-                />
-              </div>
-              {errors.price && (
-                <ul className={styles.form__errorList}>
-                  {errors.price.map((item, index) => (
-                    <li key={index} className={styles.form__error}>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                </>
               )}
             </div>
             <div className={styles.form__buttonContainer}>

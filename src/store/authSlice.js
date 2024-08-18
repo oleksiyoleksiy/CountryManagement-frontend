@@ -1,16 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const initialLanguage = localStorage.getItem('lang') ?? 'en'
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
+    language: initialLanguage,
     token: localStorage.getItem('accessToken'),
     refreshToken: localStorage.getItem('refreshToken'),
-    
   },
   reducers: {
     setUser(state, action) {
       state.user = action.payload
+    },
+    setLanguage(state, action) {
+      state.language = action.payload
+      localStorage.setItem('lang', action.payload)
     },
     setToken(state, action) {
       state.token = action.payload.accessToken

@@ -1,12 +1,7 @@
 import axios from 'axios'
 import store from '../store'
 import { authActions } from '../store/authSlice'
-import { authService } from '../services/authService'
-import { toast } from 'react-toastify'
 import { getNavigate } from '../navigate'
-import { useSelector } from 'react-redux'
-import useEcho from '../hooks/useEcho'
-import { getEcho } from '../echo'
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_DOMAIN,
@@ -17,11 +12,6 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   config => {
-    const echo = getEcho()
-    const socketId = echo ? echo.socketId() : null
-    if (socketId) {
-      config.headers['X-Socket-Id'] = socketId
-    }
     const accessToken = localStorage.getItem('accessToken')
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`
@@ -34,7 +24,7 @@ axiosInstance.interceptors.request.use(
 )
 
 axiosInstance.interceptors.response.use(
-  response => response, // Directly return successful responses.
+  response => response,
   async error => {
     const originalRequest = error.config
 

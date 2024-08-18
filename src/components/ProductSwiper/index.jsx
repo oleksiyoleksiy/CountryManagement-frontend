@@ -4,10 +4,12 @@ import 'swiper/css'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import useLanguage from '../../hooks/useLanguage'
 
 function ProductSwiper() {
   const products = useSelector(state => state.product.products)
   const [slidesCount, setSlidesCount] = useState(5)
+  const lang = useLanguage()
 
   useEffect(() => {
     calculateSlidesPerView()
@@ -35,8 +37,10 @@ function ProductSwiper() {
               </div>
 
               <div className={styles.seller}>
-                sold by{' '}
-                <span className={styles.seller__value}>{product.country.name}</span>
+                {lang.general.soldBy}{' '}
+                <span className={styles.seller__value}>
+                  {product.country.name}
+                </span>
               </div>
               <Link
                 className={styles.card__button}
@@ -51,7 +55,9 @@ function ProductSwiper() {
                     />
                     <div className={styles.price__value}>{product.price}</div>
                   </div>
-                  <div className={styles.price__label}>per unit</div>
+                  <div className={styles.price__label}>
+                    {lang.general.perUnit}
+                  </div>
                 </div>
               </Link>
             </div>

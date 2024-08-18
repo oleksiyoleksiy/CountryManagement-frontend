@@ -8,7 +8,6 @@ import NavigationPanel from '../../components/NavigationPanel'
 import MarketplaceLayout from '../MarketplaceLayout'
 import styles from './index.module.scss'
 import useEcho from '../../hooks/useEcho'
-import axiosInstance from '../../api/axiosInstance'
 import { productActions } from '../../store/productSlice'
 
 function GameLayout() {
@@ -20,9 +19,7 @@ function GameLayout() {
   const echo = useEcho()
 
   const redirectIfNoAuthOrCountry = () => {
-    if (!token) {
-      navigate('/login')
-    } else if (!currentCountry) {
+    if (!currentCountry) {
       navigate('/select-country')
     }
   }
@@ -53,6 +50,13 @@ function GameLayout() {
         .listen('ProductUpdateEvent', product => {
           if (currentCountry.id !== product.country.id) {
             dispatch(productActions.updateProduct(product))
+          }
+        })
+        .listen('ProductPurchaseEvent', product => {
+          if (currentCountry.id === product.country.id) {
+            product.deleted
+              ? dispatch(productActions.deleteMyProduct(product.id))
+              : dispatch(productActions.updateMyProduct(product))
           }
         })
 

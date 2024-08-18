@@ -1,0 +1,46 @@
+@import '../../variables.scss';
+
+.container {
+  position: relative;
+}
+
+.selectButton {
+  width: 180px;
+  padding: 5px;
+  border: 1px solid $text-100;
+  border-radius: 5px;
+  color: $text-100;
+}
+
+.option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-100;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  padding: 5px;
+
+  &:hover {
+    background-color: $primary-200;
+  }
+}
+
+.optionPanel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  background-color: $primary-100;
+
+  &_opened {
+    display: flex;
+  }
+
+  &_closed {
+    display: none;
+  }
+}

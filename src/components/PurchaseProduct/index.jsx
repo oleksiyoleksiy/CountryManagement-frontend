@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import styles from './index.module.scss'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { productService } from '../../services/productService'
 import { useDispatch, useSelector } from 'react-redux'
 import { ArrowLeft } from 'react-bootstrap-icons'
 import { productActions } from '../../store/productSlice'
 import { countryActions } from '../../store/countrySlice'
 import { toast } from 'react-toastify'
+import useLanguage from '../../hooks/useLanguage'
 
 function PurchaseProduct() {
   const { id } = useParams()
@@ -17,6 +18,7 @@ function PurchaseProduct() {
   const products = useSelector(state => state.product.products)
   const [product, setProduct] = useState(null)
   const [count, setCount] = useState(1)
+  const lang = useLanguage()
 
   useEffect(() => {
     fetchProduct()
@@ -54,13 +56,11 @@ function PurchaseProduct() {
     )
     if (response.product) {
       dispatch(productActions.updateProduct(response.product))
-    }else {
+    } else {
       dispatch(productActions.deleteProduct(product.id))
     }
     dispatch(countryActions.setCurrentCountry(response.country))
-    toast.info(
-      `${count} units of a ${product.name} are purchased`
-    )
+    toast.info(`${count} units of a ${product.name} are purchased`)
     navigate(-1)
   }
 
@@ -68,9 +68,9 @@ function PurchaseProduct() {
     product && (
       <div className={styles.container}>
         <div className={styles.holder}>
-          <button onClick={() => navigate(-1)} className={styles.backButton}>
+          <Link to={-1} className={styles.backButton}>
             <ArrowLeft className={styles.backButton__icon} />
-          </button>
+          </Link>
           <div className={styles.content}>
             <img
               className={styles.image}
@@ -80,12 +80,16 @@ function PurchaseProduct() {
             <form onSubmit={e => handleFormSubmit(e)} className={styles.form}>
               <div className={styles.form__title}>{product.name}</div>
               <div className={styles.seller}>
-                sold by{' '}
-                <span className={styles.seller__name}>{product.seller}</span>
+                {lang.general.soldBy}{' '}
+                <span className={styles.seller__name}>
+                  {product.country.name}
+                </span>
               </div>
               <div className={styles.form__content}>
                 <div className={styles.form__group}>
-                  <label className={styles.form__label}>count</label>
+                  <label className={styles.form__label}>
+                    {lang.productPurchase.form.inputs.count}
+                  </label>
                   <input
                     className={styles.form__input}
                     type="number"
@@ -103,7 +107,9 @@ function PurchaseProduct() {
                   />
                 </div>
                 <div className={styles.total}>
-                  <div className={styles.total__label}>total</div>
+                  <div className={styles.total__label}>
+                    {lang.productPurchase.form.total}
+                  </div>
                   <div className={styles.total__content}>
                     <img className={styles.total__icon} src="/money.webp" />
                     <div className={styles.total__value}>
@@ -112,7 +118,14 @@ function PurchaseProduct() {
                   </div>
                 </div>
               </div>
-              <button className={styles.form__button}>Buy</button>
+              <button
+                disabled={
+                  count * product.price > currentCountry.resources['money']
+                }
+                className={styles.form__button}
+              >
+                {lang.productPurchase.form.submitButton}
+              </button>
             </form>
           </div>
         </div>

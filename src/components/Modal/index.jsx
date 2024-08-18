@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import styles from './index.module.scss'
+import {
+  Check2Circle,
+  CheckCircleFill,
+  XCircleFill,
+} from 'react-bootstrap-icons'
 
-function Modal({ onApply, message, applyButtonText = 'ok', onCancel }) {
+function Modal({ onApply, message, onCancel }) {
   const [isVisible, setVisibility] = useState(true)
 
   const handleCancel = () => {
@@ -23,11 +28,17 @@ function Modal({ onApply, message, applyButtonText = 'ok', onCancel }) {
       <div className={styles.container}>
         <div className={styles.message}>{message}</div>
         <div className={styles.buttonHolder}>
-          <button onClick={handleApply} className={styles.buttonApply}>
-            {applyButtonText}
+          <button
+            onClick={handleCancel}
+            className={`${styles.button} ${styles.buttonCancel}`}
+          >
+            <XCircleFill />
           </button>
-          <button onClick={handleCancel} className={styles.buttonCancel}>
-            Cancel
+          <button
+            onClick={handleApply}
+            className={`${styles.button} ${styles.buttonApply}`}
+          >
+            <CheckCircleFill />
           </button>
         </div>
       </div>

@@ -22,7 +22,6 @@
 
 .closeButtonHolder {
   display: flex;
-  justify-content: end;
 }
 
 .closeButton {
@@ -43,18 +42,6 @@
     font-weight: 600;
     color: $text-100;
     font-size: 30px;
-  }
-
-  &__label {
-    color: black;
-    font-weight: 500;
-    pointer-events: none;
-    transition: 0.3s all ease-in-out;
-    position: absolute;
-    user-select: none;
-    left: 5px;
-    top: 50%;
-    transform: translateY(-50%);
   }
 
   &__group {
@@ -95,10 +82,13 @@
     background-color: $primary-100;
     padding: 10px;
     color: $text-100;
-    transform: translate(-5px, -5px);
 
     &:hover {
-      transform: translate(0, 0);
+      background-color: $primary-200;
+    }
+
+    &:disabled {
+      opacity: 0.7;
     }
   }
 
@@ -107,12 +97,55 @@
     font-size: 12px;
   }
 
-  .form__input:not(:placeholder-shown) ~ .form__label,
-  .form__input:focus ~ .form__label {
+  .form__input:not(:placeholder-shown) ~ .label,
+  .form__input:focus ~ .label {
+    .label__icon {
+      display: flex;
+    }
+    pointer-events: unset;
     left: 0;
     top: -25px;
     font-size: 14px;
     transform: translateY(0);
     color: $text-100;
+  }
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: black;
+  pointer-events: none;
+  transition: 0.3s all ease-in-out;
+  position: absolute;
+  user-select: none;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &__title {
+    font-weight: 500;
+  }
+
+  &__hint {
+    display: none;
+    background-color: $primary-100;
+    position: absolute;
+    top: 150%;
+    width: 400px;
+    padding: 5px;
+    border-radius: 5px;
+    z-index: 999;
+  }
+
+  &__icon {
+    display: none;
+
+    &:hover {
+      & ~ .label__hint {
+        display: flex;
+      }
+    }
   }
 }

@@ -6,6 +6,7 @@ import { productActions } from '../../store/productSlice'
 import { Link, Route, Routes } from 'react-router-dom'
 import PurchaseProduct from '../PurchaseProduct'
 import ProductToolBar from '../ProductToolBar'
+import useLanguage from '../../hooks/useLanguage'
 
 function Product() {
   const dispatch = useDispatch()
@@ -13,6 +14,7 @@ function Product() {
   const products = useSelector(state => state.product.products)
   const [filteredProducts, setFilteredProducts] = useState([])
   const currentCountry = useSelector(state => state.country.currentCountry)
+  const lang = useLanguage()
 
   useEffect(() => {
     fetchProduct()
@@ -53,8 +55,10 @@ function Product() {
               </div>
 
               <div className={styles.seller}>
-                sold by{' '}
-                <span className={styles.seller__value}>{product.country.name}</span>
+                {lang.general.soldBy}{' '}
+                <span className={styles.seller__value}>
+                  {product.country.name}
+                </span>
               </div>
               <Link
                 className={styles.card__button}
@@ -69,7 +73,9 @@ function Product() {
                     />
                     <div className={styles.price__value}>{product.price}</div>
                   </div>
-                  <div className={styles.price__label}>per unit</div>
+                  <div className={styles.price__label}>
+                    {lang.general.perUnit}
+                  </div>
                 </div>
               </Link>
             </div>

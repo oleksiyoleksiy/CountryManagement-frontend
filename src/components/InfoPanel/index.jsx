@@ -3,9 +3,11 @@ import { useSelector } from 'react-redux'
 import styles from './index.module.scss'
 import { CheckCircleFill, GlobeEuropeAfrica } from 'react-bootstrap-icons'
 import { NavLink } from 'react-router-dom'
+import useLanguage from '../../hooks/useLanguage'
 
 function InfoPanel() {
   const country = useSelector(state => state.country.currentCountry)
+  const lang = useLanguage()
 
   const shortenNumber = number => {
     if (number >= 1000000000) {
@@ -34,7 +36,7 @@ function InfoPanel() {
           title={type}
           className={styles.resource__icon}
         />
-        <div className={styles.resource__value}>{shortenNumber(value)}</div>
+        <div className={styles.resource__value} title={value}>{shortenNumber(value)}</div>
       </div>
     )
   }
@@ -93,7 +95,7 @@ function InfoPanel() {
         >
           <div className={styles.availableResources__iconWrapper}>
             <CheckCircleFill
-              title="available resources"
+              title={lang.general.availableFossils}
               className={styles.availableResources__icon}
             />
           </div>

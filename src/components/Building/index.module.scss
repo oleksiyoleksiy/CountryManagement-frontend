@@ -56,7 +56,6 @@
   justify-content: space-between;
   flex-direction: column;
   padding: 10px;
-  height: 300px;
   color: $text-100;
   background-color: $primary-100;
   align-items: center;
@@ -111,6 +110,7 @@
 
   &__collectButton {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -122,7 +122,7 @@
     font-size: 20px;
 
     &:hover {
-      background-color: $bg-100;
+      background-color: $primary-200;
     }
   }
 }

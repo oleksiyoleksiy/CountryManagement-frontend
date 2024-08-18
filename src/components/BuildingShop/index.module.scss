@@ -22,7 +22,6 @@
 }
 
 .card {
-  height: 300px;
   border-radius: 5px;
   background-color: $primary-100;
   color: $text-100;
@@ -76,6 +75,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     padding: 10px;
     border-radius: 5px;
     font-size: 16px;
@@ -86,12 +86,13 @@
     gap: 5px;
 
     &:hover {
-      background-color: $bg-100;
+      background-color: $primary-200;
     }
   }
 
   &__income {
     display: flex;
+    flex-wrap: wrap;
     gap: 5px;
   }
 
