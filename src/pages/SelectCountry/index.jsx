@@ -18,6 +18,7 @@ import { authActions } from '../../store/authSlice'
 import { productActions } from '../../store/productSlice'
 import Settings from '../../components/Settings'
 import useLanguage from '../../hooks/useLanguage'
+import { chatActions } from '../../store/chatSlice'
 
 function SelectCountry() {
   const dispatch = useDispatch()
@@ -33,6 +34,7 @@ function SelectCountry() {
     const response = await countryService.index(token)
     dispatch(countryActions.setCountries(response))
     dispatch(countryActions.setBuildings(response.buildings))
+    dispatch(chatActions.setMessages([]))
   }
 
   useEffect(() => {

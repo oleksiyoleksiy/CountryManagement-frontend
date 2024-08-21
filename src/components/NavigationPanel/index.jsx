@@ -10,16 +10,25 @@ import {
   BuildingFill,
   BuildingFillAdd,
   CartFill,
+  ChatLeftTextFill,
+  ChatRightTextFill,
+  CircleFill,
   GlobeEuropeAfrica,
   HousesFill,
   List,
   ShopWindow,
 } from 'react-bootstrap-icons'
+import { useSelector } from 'react-redux'
 
 function NavigationPanel() {
+  const isRead = useSelector(state => state.chat.isRead)
+
   return (
     <nav className={styles.navbar}>
-      <Link className={`${styles.navbar__link} ${styles.selectCountriesLink}`} to="/select-country">
+      <Link
+        className={`${styles.navbar__link} ${styles.selectCountriesLink}`}
+        to="/select-country"
+      >
         <GlobeEuropeAfrica className={styles.navbar__icon} />
       </Link>
       <NavLink active="true" className={styles.navbar__link} to="/">
@@ -34,6 +43,10 @@ function NavigationPanel() {
       </NavLink>
       <NavLink active="true" className={styles.navbar__link} to="/marketplace">
         <BasketFill className={styles.navbar__icon} />
+      </NavLink>
+      <NavLink active="true" className={styles.navbar__link} to="/chat">
+        <ChatLeftTextFill className={styles.navbar__icon} />
+        <GlobeEuropeAfrica className={styles.countryIcon} />
       </NavLink>
     </nav>
   )

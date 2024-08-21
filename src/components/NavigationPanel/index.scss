@@ -2,4 +2,8 @@
 
 .active {
   background-color: $primary-200;
+
+  & > * {
+    background-color: $primary-200;
+  }
 }

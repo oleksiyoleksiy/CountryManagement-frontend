@@ -9,25 +9,31 @@ import MarketplaceLayout from '../MarketplaceLayout'
 import styles from './index.module.scss'
 import useEcho from '../../hooks/useEcho'
 import { productActions } from '../../store/productSlice'
+import Chat from '../../pages/Chat'
+import { chatActions } from '../../store/chatSlice'
+import { messageService } from '../../services/messageService'
 
 function GameLayout() {
   const currentCountry = useSelector(state => state.country.currentCountry)
   const token = useSelector(state => state.auth.token)
   const user = useSelector(state => state.auth.user)
+  const messages = useSelector(state => state.chat.messages)
+  const isOnPage = useSelector(state => state.chat.isOnPage)
+  const isRead = useSelector(state => state.chat.isRead)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const echo = useEcho()
 
-  const redirectIfNoAuthOrCountry = () => {
+  useEffect(() => {
     if (!currentCountry) {
       navigate('/select-country')
     }
-  }
+  }, [token, currentCountry, navigate])
 
   useEffect(() => {
-    if (currentCountry) {
+    if (currentCountry && token) {
       echo
-        .join(`general`)
+        .join('general')
         .here(members => {
           console.log('Members currently in the channel:', members)
         })
@@ -60,15 +66,27 @@ function GameLayout() {
           }
         })
 
+      echo.join('chat').listen('MessageStoreEvent', message => {
+        if (message.country.id !== currentCountry.id) {
+          if (!messages.length) {
+            fetchMessages()
+          } else {
+            dispatch(chatActions.addMessage(message))
+          }
+        }
+      })
+
       return () => {
-        echo.leave()
+        echo.leaveChannel('general')
+        echo.leaveChannel('chat')
       }
     }
-  }, [user])
+  }, [])
 
-  useEffect(() => {
-    redirectIfNoAuthOrCountry()
-  }, [token, currentCountry])
+  const fetchMessages = async () => {
+    const response = await messageService.index(currentCountry.id, token)
+    dispatch(chatActions.setMessages(response))
+  }
 
   return (
     <div className={styles.container}>
@@ -78,6 +96,7 @@ function GameLayout() {
           <Route index element={<Building />} />
           <Route path="/building-shop" element={<BuildingShop />} />
           <Route path="/marketplace/*" element={<MarketplaceLayout />} />
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </div>
       <NavigationPanel />

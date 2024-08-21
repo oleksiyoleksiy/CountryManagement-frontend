@@ -12,6 +12,7 @@
   gap: 10px;
 
   &__link {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,11 +22,27 @@
     color: white;
     border-radius: 10px;
     transition: 0.2s all ease-in-out;
-
+    
     &:hover {
       background-color: $primary-200;
+      
+      .countryIcon {
+        background-color: $primary-200;
+      }
     }
   }
+}
+
+.countryIcon {
+  transition: 0.2s all ease-in-out;
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  font-size: 22px;
+  border-radius: 50%;
+  background-color: $primary-100;
+  padding: 2px;
+
 }
 
 .selectCountriesLink {

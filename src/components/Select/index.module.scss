@@ -27,6 +27,16 @@
   }
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: $primary-100;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $primary-200;
+  border-radius: 4px;
+}
+
 .optionPanel {
   display: flex;
   flex-direction: column;
@@ -35,6 +45,8 @@
   left: 0;
   top: 100%;
   background-color: $primary-100;
+  max-height: 80px;
+  overflow-y: scroll;
 
   &_opened {
     display: flex;
